@@ -81,7 +81,7 @@ jobs:
           for i in $(seq 1 30); do docker exec probe pgrep xsettingsd >/dev/null 2>&1 && break; sleep 3; done
           docker exec probe bash -c 'DISPLAY=:1 dump_xsettings | grep -q "Xft/DPI 98304"' || fail "DPI 探针失败"
           echo "① DPI ✓"
-          docker exec probe bash -c 'DISPLAY=:1 timeout 8 /usr/bin/firefox-esr --no-remote --new-instance --profile /tmp/probe-firefox about:blank >/dev/null 2>&1 & p=$!; sleep 6; kill -0 $p 2>/dev/null' || fail "Firefox 启动探针失败"
+          docker exec --user 1000:1000 probe bash -c 'DISPLAY=:1 timeout 8 /usr/bin/firefox-esr --no-remote --new-instance --profile /tmp/probe-firefox about:blank >/dev/null 2>&1 & p=$!; sleep 6; kill -0 $p 2>/dev/null' || fail "Firefox 启动探针失败"
           echo "② Firefox 启动 ✓"
           docker exec probe bash -c '
             for round in 1 2; do
