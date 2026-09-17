@@ -27,7 +27,7 @@ const DEFAULT_ADMIN_PASSWORD = 'wechat';
 
 // v1.2.0：实例可承载多种应用（不止微信）。同一镜像运行时按 appType 安装/启动对应应用。
 export type AppType = 'wechat' | 'telegram' | 'chromium' | 'firefox' | 'custom';
-export const APP_TYPES: AppType[] = ['wechat', 'telegram', 'chromium', 'custom'];
+export const APP_TYPES: AppType[] = ['wechat', 'telegram', 'chromium', 'firefox', 'custom'];
 export const APP_LABELS: Record<AppType, string> = {
   wechat: '微信',
   telegram: 'Telegram',

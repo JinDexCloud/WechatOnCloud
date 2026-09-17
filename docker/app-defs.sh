@@ -24,9 +24,10 @@ woc_app_def() {
       APP_LAUNCH="$APP_BIN --no-sandbox --no-first-run --no-default-browser-check --start-maximized --password-store=basic --disable-gpu --force-device-scale-factor=1 --disable-background-networking --user-data-dir=/config/chromium"
       APP_NAME=Chromium
       ;;
-    firefox)                 # 新增Firefox浏览器启动选项
-      APP_BIN="firefox-esr"
-      APP_LAUNCH="firefox-esr --no-remote --new-instance" # 启动参数
+    firefox)
+      # autostart 用 -x 检查 APP_BIN；必须使用绝对路径，不能只填 PATH 中的命令名。
+      APP_BIN=/usr/bin/firefox-esr
+      APP_LAUNCH="$APP_BIN --no-remote --new-instance --profile /config/firefox"
       APP_NAME="Firefox"
       ;;
     custom)
