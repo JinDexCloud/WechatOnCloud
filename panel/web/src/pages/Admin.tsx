@@ -2000,6 +2000,9 @@ function CreateInstance({ subs, onClose, onDone }: { subs: PanelUser[]; onClose:
         {appType === 'chromium' && (
           <div className="muted small">Chromium 浏览器随镜像就绪，创建后直接「进入实例」即可（无需下载安装）。</div>
         )}
+        {appType === 'firefox' && (
+          <div className="muted small">Firefox 浏览器随镜像就绪，创建后直接「进入实例」即可（无需下载安装）。</div>
+        )}
         <div className="field-label">允许访问的子账号（管理员默认可访问全部）</div>
         <ChipMultiSelect
           options={subs.map((u) => ({ id: u.id, label: u.username }))}
