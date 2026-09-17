@@ -48,6 +48,8 @@ RUN set -eux; \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-cursor0 \
         # WeChatAppEx 是 Chromium 内核，需 GTK3 全家桶 + 一组 X 扩展 + cups
         libgtk-3-0 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libcups2 \
+        # 安装firefox浏览器
+        firefox-esr \
         libxcomposite1 libxrandr2 libxfixes3 libxtst6 libxshmfence1 libdrm2; \
     chromium --version; \
     rm -f /etc/apt/sources.list.d/woc-chromium-pin.list /etc/apt/preferences.d/woc-chromium-pin; \

@@ -24,6 +24,11 @@ woc_app_def() {
       APP_LAUNCH="$APP_BIN --no-sandbox --no-first-run --no-default-browser-check --start-maximized --password-store=basic --disable-gpu --force-device-scale-factor=1 --disable-background-networking --user-data-dir=/config/chromium"
       APP_NAME=Chromium
       ;;
+    firefox)                 # 新增Firefox浏览器启动选项
+      APP_BIN="firefox-esr"
+      APP_LAUNCH="firefox-esr --no-remote --new-instance" # 启动参数
+      APP_NAME="Firefox"
+      ;;
     custom)
       # 自定义：启动命令由面板写入 .woc-app 的 WOC_CUSTOM_LAUNCH（用户上传安装包后设定）
       APP_LAUNCH="${WOC_CUSTOM_LAUNCH:-}"
