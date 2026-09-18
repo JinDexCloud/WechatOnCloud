@@ -11,6 +11,12 @@ case "$APP_TYPE" in
   *) exit 0 ;;
 esac
 
+# Firefox 的 --profile 参数要求目标目录已存在且由桌面用户可写。
+# 新建实例的数据卷为空时提前初始化，避免启动后显示 Profile Missing。
+if [ "$APP_TYPE" = "firefox" ]; then
+  mkdir -p /config/firefox
+  chown abc:abc /config/firefox 2>/dev/null || true
+fi
 TMP=/config/.woc-app.tmp
 {
   echo "WOC_APP_TYPE='${APP_TYPE}'"
