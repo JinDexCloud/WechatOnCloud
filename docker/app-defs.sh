@@ -24,11 +24,16 @@ woc_app_def() {
       APP_LAUNCH="$APP_BIN --no-sandbox --no-first-run --no-default-browser-check --start-maximized --password-store=basic --disable-gpu --force-device-scale-factor=1 --disable-background-networking --user-data-dir=/config/chromium"
       APP_NAME=Chromium
       ;;
-    firefox)
-      # autostart 用 -x 检查 APP_BIN；必须使用绝对路径，不能只填 PATH 中的命令名。
-      APP_BIN=/usr/bin/firefox-esr
-      APP_LAUNCH="$APP_BIN --no-remote --new-instance --profile /config/firefox"
-      APP_NAME="Firefox"
+    edge)
+      # Microsoft Edge 官方 Linux 包仅提供 amd64；arm64 镜像回退到已固定版本的 Chromium，保持实例可运行。
+      if [ -x /usr/bin/microsoft-edge ]; then
+        APP_BIN=/usr/bin/microsoft-edge
+        APP_NAME="Edge"
+      else
+        APP_BIN=/usr/bin/chromium
+        APP_NAME="Edge（arm64 回退 Chromium）"
+      fi
+      APP_LAUNCH="$APP_BIN --no-sandbox --no-first-run --no-default-browser-check --start-maximized --password-store=basic --disable-gpu --force-device-scale-factor=1 --disable-background-networking --user-data-dir=/config/edge"
       ;;
     custom)
       # 自定义：启动命令由面板写入 .woc-app 的 WOC_CUSTOM_LAUNCH（用户上传安装包后设定）

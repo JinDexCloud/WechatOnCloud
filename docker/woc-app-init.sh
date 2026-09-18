@@ -7,15 +7,15 @@ APP_TYPE="${WOC_APP_TYPE:-}"
 
 # 仅允许已知的简单标识，杜绝写入异常内容
 case "$APP_TYPE" in
-  wechat | telegram | chromium | firefox | custom) ;;
+  wechat | telegram | chromium | edge | custom) ;;
   *) exit 0 ;;
 esac
 
-# Firefox 的 --profile 参数要求目标目录已存在且由桌面用户可写。
+# Edge 的 --user-data-dir 参数要求目标目录已存在且由桌面用户可写。
 # 新建实例的数据卷为空时提前初始化，避免启动后显示 Profile Missing。
-if [ "$APP_TYPE" = "firefox" ]; then
-  mkdir -p /config/firefox
-  chown abc:abc /config/firefox 2>/dev/null || true
+if [ "$APP_TYPE" = "edge" ]; then
+  mkdir -p /config/edge
+  chown abc:abc /config/edge 2>/dev/null || true
 fi
 TMP=/config/.woc-app.tmp
 {

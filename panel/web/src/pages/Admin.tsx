@@ -1935,7 +1935,7 @@ const APP_OPTIONS: { type: AppType; desc: string; ready: boolean }[] = [
   { type: 'wechat', desc: '默认', ready: true },
   { type: 'telegram', desc: 'Telegram', ready: true },
   { type: 'chromium', desc: '浏览器', ready: true },
-  { type: 'firefox', desc: 'Firefox', ready: true },
+  { type: 'edge', desc: 'Edge', ready: true },
   { type: 'custom', desc: '即将支持', ready: false },
 ];
 
@@ -2000,8 +2000,8 @@ function CreateInstance({ subs, onClose, onDone }: { subs: PanelUser[]; onClose:
         {appType === 'chromium' && (
           <div className="muted small">Chromium 浏览器随镜像就绪，创建后直接「进入实例」即可（无需下载安装）。</div>
         )}
-        {appType === 'firefox' && (
-          <div className="muted small">Firefox 浏览器随镜像就绪，创建后直接「进入实例」即可（无需下载安装）。</div>
+        {appType === 'edge' && (
+          <div className="muted small">Edge 浏览器随镜像就绪，创建后直接「进入实例」即可（无需下载安装）。</div>
         )}
         <div className="field-label">允许访问的子账号（管理员默认可访问全部）</div>
         <ChipMultiSelect

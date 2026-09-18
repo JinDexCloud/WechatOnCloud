@@ -35,24 +35,32 @@ RUN set -eux; \
     printf 'Package: chromium*\nPin: version %s\nPin-Priority: 1001\n' "${CHROMIUM_VERSION}" \
       > /etc/apt/preferences.d/woc-chromium-pin; \
     apt-get -o Acquire::Languages=none -o Acquire::Retries=3 update; \
+    apt-get install -y --no-install-recommends curl ca-certificates gnupg; \
+    EDGE_PKG=""; \
+    if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+      curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+        | gpg --dearmor --yes -o /usr/share/keyrings/microsoft-edge.gpg; \
+      echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://packages.microsoft.com/repos/edge stable main" \
+        > /etc/apt/sources.list.d/microsoft-edge.list; \
+      EDGE_PKG="microsoft-edge-stable"; \
+      apt-get -o Acquire::Languages=none -o Acquire::Retries=3 update; \
+    fi; \
     apt-get install -y --no-install-recommends \
-        curl ca-certificates locales dpkg \
+        curl ca-certificates locales dpkg gnupg \
         fonts-wqy-zenhei fonts-wqy-microhei fonts-noto-cjk fonts-noto-color-emoji \
         libnss3 libgbm1 libasound2 libxss1 \
         xz-utils \
         chromium="${CHROMIUM_VERSION}" \
+        ${EDGE_PKG} \
         xdotool xclip \
         xwallpaper xsettingsd \
-        # 微信原生版是 Qt 程序，依赖一组 xcb 平台库；libxcb-cursor0 由 Qt 动态 dlopen，ldd 查不到，需主动装。
         libatomic1 libxdamage1 libxkbcommon-x11-0 \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-cursor0 \
-        # WeChatAppEx 是 Chromium 内核，需 GTK3 全家桶 + 一组 X 扩展 + cups
         libgtk-3-0 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libcups2 \
-        # 安装firefox浏览器
-        firefox-esr \
         libxcomposite1 libxrandr2 libxfixes3 libxtst6 libxshmfence1 libdrm2; \
     chromium --version; \
-    rm -f /etc/apt/sources.list.d/woc-chromium-pin.list /etc/apt/preferences.d/woc-chromium-pin; \
+    if [ -n "${EDGE_PKG}" ]; then microsoft-edge --version; fi; \
+    rm -f /etc/apt/sources.list.d/woc-chromium-pin.list /etc/apt/preferences.d/woc-chromium-pin /etc/apt/sources.list.d/microsoft-edge.list /usr/share/keyrings/microsoft-edge.gpg; \
     mv /woc-apt-bak/sources.list /etc/apt/sources.list; \
     mv /woc-apt-bak/docker.list /woc-apt-bak/nodesource.list /etc/apt/sources.list.d/ 2>/dev/null || true; \
     rm -rf /woc-apt-bak; \
